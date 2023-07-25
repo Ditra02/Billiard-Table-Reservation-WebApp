@@ -1,0 +1,246 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}
+Admin Input
+{% endblock %}
+
+{% block content %}
+<div class="container">
+  <div class="view p-5 mt-5 rounded">
+    <div class="row d-flex justify-content-between">
+      <div class="col">
+        <p class="text-white" style="font-size: 26px; font-weight: 600;">Pilih Meja Billiard</p>
+      </div>
+      <div class="col d-flex gap-3 justify-content-end">
+        <img src="{% static 'images/putih.png' %}" width="20px" height="20px" alt="" class="mt-2">
+        <p style="color: white; font-size: 23px; font-weight: 400;">Belum terisi</p>
+        <img src="{% static 'images/biru.png' %}" width="20px" height="20px" class="mt-2">
+        <p style="color: white; font-size: 23px; font-weight: 400;">Terisi</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-wrap gap-5">
+        {% for table in hor_tables %}
+            {% if table.player == 'EMPTY' %}
+              <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="{% static 'images/meja-putih.png' %}" alt="{{ table.table_number }}" class="clickable-image" title="{{ table.table_number }}">
+              </a>
+            {% else %}
+              <img src="{% static 'images/meja-biru.png' %}" alt="{{ table.table_number }}" class="clickable-image" title="{{ table.table_number }}">
+            {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col d-flex flex-wrap gap-5 justify-content-end align-content-between" style="padding-left: 150px">
+        {% for table in ver_tables %}
+            {% if table.player == 'EMPTY' %}
+              <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+                <img src="{% static 'images/meja-tegak-putih.png' %}" alt="{{ table.table_number }}" class="clickable-image" title="{{ table.table_number }}">
+              </a>
+            {% else %}
+              <img src="{% static 'images/meja-tegak-biru.png' %}" alt="{{ table.table_number }}" class="clickable-image" title="{{ table.table_number }}">
+            {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+  
+  <div class="wl p-5">
+    <p style="color: white; font-size: 26px; font-weight: 600; text-align: center">Waiting List</p>
+    <div class="d-flex flex-wrap d-block mx-auto" style="width: 425px;">
+      <!-- loop waiting list -->
+      {% for waiting in waitings %}
+        <a href="" style="width: 135px; color: white; text-decoration: none; font-size: 16px;" data-bs-toggle="modal"
+          data-bs-target="#set-table">
+          <p title="{{ waiting.queue }}" class="clickable-paragraph">{{ waiting.player|title }}</p>
+        </a>
+      {% endfor %}  
+    </div>
+      <button class="btn btn-success d-block mx-auto px-5 mt-3" style="font-weight: 600;" data-bs-toggle="modal"
+        data-bs-target="#tambah_wl">Tambah</button>
+  </div>
+</div>
+
+
+
+
+<!-- modal set table  -->
+<div class="modal fade" id="set-table" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+      <div class="modal-header">
+        <p style="font-size: 26px; font-weight: 600; color: white;" class="modal-title fs-5" id="exampleModalLabel">
+          Set Table</p>
+        <button type="button" class="btn-close" id="close-button-set-table" data-bs-dismiss="modal"
+          aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <!-- form inputan -->
+        <form id="set_table" action="{% url 'input-admin' %}" method="post">
+          {% csrf_token %}
+
+          <!-- ini kasih tanda ke views.py mana data form yg di post -->
+          <input type="hidden" name="set_table" value="True">
+
+          <!-- buat simpan id waiting, di dapat dari nama waiting yang di klik, disimpan di value -->
+          <input type="hidden" id="id-waiting" name="queue" value="">
+
+          <!-- ! ilangin am:pm di jam nya, karena nunjukin lama main aja -->
+          <div class="waktu d-flex justify-content-between mt-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Waktu main :</p>
+            <input type="text" id="play-time" name="play_time" class="justify-content-end custom-input" required placeholder="00:00">
+          </div>
+
+          <div class="nama d-flex justify-content-between mt-2 mb-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Nama :</p>
+            <input class="custom-input" id="player" type="text" name="player" required>
+          </div>
+
+          <div class="nama d-flex justify-content-between mt-2 mb-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">No Table :</p>
+            <input class="custom-input" id="input_no" type="number" name="table_number" min="1" max="16" required placeholder="1-16">
+          </div>
+
+          <div class="modal-footer d-flex flex-column">
+            {% if not full %}
+            <button style="width: 100%;" class="btn btn-success tambah" id="disable-button" type="submit" onclick="validateSetTable()">Set
+              table</button>
+            {% else %}
+            <a>
+              <button style="width: 100%; font-weight: 600; color: red;" class="btn btn-success tambah" type="reset"
+                value="Tambah">FULL</button>
+              <!-- ! buatin keterangan bahwa semua table terisi, pake tombol atau apa bebas -->
+            </a>
+            {% endif %}
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal tambah informasi table -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+      <div class="modal-header">
+        <p style="font-size: 26px; font-weight: 600; color: white;" class="modal-title fs-5" id="exampleModalLabel">
+          Tambah Informasi</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-button-tambah-info"></button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: center;">
+          <img src="{% static 'images/meja-putih-modal.png' %}" alt="">
+        </div>
+        <!-- form inputan -->
+        <form id="tambah-informasi" action="{% url 'input-admin' %}" method="post">
+          {% csrf_token %}
+
+          <!-- ini kasih tanda ke views.py mana form yang diisi -->
+          <input type="hidden" name="tambah_informasi" value="True">
+
+          <!-- ? simpan nilai table num dari js -->
+          <input type="hidden" name="table_number" id="table-number" value="">
+
+          <!-- ! hapus am, pm nya soalnya nunjukin berapa jam player main -->
+          <div class="waktu d-flex justify-content-between mt-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Waktu main :</p>
+            <input type="text" id="required-tambah-info1" name="play_time" class="justify-content-end custom-input" required placeholder="00:00">
+          </div>
+
+          <div class="nama d-flex justify-content-between mt-2 mb-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Nama :</p>
+            <input class="custom-input" type="text" name="player" id="required-tambah-info2" required>
+          </div>
+          
+          <!-- ! perlu koreksi, button terbungkus a tag, so ga bisa buat post -->
+          <div class="modal-footer d-flex flex-column">
+              <!-- <a href="" data-bs-toggle="modal" data-bs-target="#notif" type="submit">
+                <button style="width: 100%;" class="btn btn-success tambah" type="submit" value="Tambah">Tambah</button>
+              </a> -->
+              <button style="width: 100%;" class="btn btn-success tambah" type="submit" onclick="validateTambahInformasi()">Submit</button>
+              <!-- <button type="submit">Submit</button> -->
+          </div>
+
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal notif sukses input data -->
+<div class="modal fade" id="notif" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+      <div class="modal-body">
+        <div style="display: flex; justify-content: center;">
+          <img src="{% static 'images/berhasil.png' %}" alt="">
+        </div>
+        <p style="font-size: 16px; font-weight: 600; color: white; text-align: center;">Penginputan Berhasil</p>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- modal tambah waiting list -->
+<div class="modal fade" id="tambah_wl" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+      <div class="modal-header">
+        <p style="font-size: 26px; font-weight: 600; color: white;" class="modal-title fs-5" id="exampleModalLabel">
+          Tambah Waiting List</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close" id="close-button-tambah-wait"></button>
+      </div>
+      <div class="modal-body">
+        <!-- form inputan -->
+        <form id="tambah-waiting" action="{% url 'input-admin' %}" method="post">
+          {% csrf_token %}
+
+          <!-- ini kasih tanda ke views.py mana data form yg di post -->
+          <input type="hidden" name="tambah_waiting" value="True">
+        
+          <!-- ! hapus am, pm nya soalnya nunjukin berapa jam player main -->
+          <div class="waktu d-flex justify-content-between mt-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Waktu main :</p>
+            <input type="text" id="required-tambah-wait1" name="play_time" class="justify-content-end custom-input" required placeholder="00:00">
+          </div>
+        
+          <div class="nama d-flex justify-content-between mt-2 mb-2">
+            <p style="font-size: 16px; font-weight: 400; color: white;">Nama :</p>
+            <input class="custom-input" type="text" name="player" id="required-tambah-wait2" required>
+          </div>
+             
+          <!-- ! perlu koreksi, button terbungkus a tag, so ga bisa buat post -->
+          <div class="modal-footer d-flex flex-column">
+            <!-- <a href="" data-bs-toggle="modal" data-bs-target="#notif" type="submit">
+                        <button style="width: 100%;" class="btn btn-success tambah" type="submit" value="Tambah">Tambah</button>
+                      </a> -->
+            <button style="width: 100%;" class="btn btn-success tambah" type="submit" onclick="validateTambahWaitingList()">Tambah</button>
+            <!-- <button type="submit">Submit</button> -->
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Bootstrap CSS -->
+<!-- <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"> -->
+
+<!-- Bootstrap JavaScript (optional, if using modal functionality) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+<script>
+  // script ini terhubung ke script.js
+  const json_waiting = JSON.parse('{{ json_waiting | escapejs }}');
+  const json_table = JSON.parse('{{ json_table | escapejs }}');
+</script>
+
+{% endblock %}

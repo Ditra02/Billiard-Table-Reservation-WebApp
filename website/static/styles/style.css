@@ -1,0 +1,77 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;400;600&display=swap');
+
+body {
+    background-color: #0B120F;
+    font-family: 'Poppins', sans-serif;
+}
+
+.bg_container {
+    background: #0B120F;
+}
+
+.nav-item .nav-link:hover {
+    color: #0EB36E !important;
+    font-style: bold;
+
+}
+
+.asu {
+    background-color: rgba(0, 0, 0, 0.078);
+}
+
+.active {
+    color: #0EB36E !important;
+    font-weight: 600;
+}
+
+.button_round {
+    border-radius: 20px;
+}
+
+.login,
+.sign-up {
+    color: #fff;
+    text-decoration: none;
+}
+
+.view {
+    width: 100%;
+    height: 582px;
+    background-image: url(../images/bg-meja.png);
+    background-size: cover;
+    background-position: center;
+}
+
+.bg_home {
+    width: 100%;
+    height: 767px;
+    background-image: url(../images/Bg_landing.png);
+    background-size: cover;
+}
+
+.custom-input {
+    width: 200px;
+    height: 40px;
+    color: #fff;
+    background-color: hsla(0, 0%, 100%, 0);
+    border: 2px solid #cccccc;
+    border-radius: 10px;
+    font-size: 16px;
+}
+
+/* required message */
+/* ! atur warna merah,  */
+input:required:invalid {
+    border-color: rgb(249, 235, 235);
+}
+
+input:required:invalid::placeholder {
+    color: rgb(205, 177, 177);
+}
+
+/* p tag di view.html */
+.extra-spaces {
+    letter-spacing: 5px;
+    /* Adjust the value as needed to add the desired space */
+}
+

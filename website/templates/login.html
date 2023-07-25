@@ -1,0 +1,50 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}
+Login
+{% endblock %}
+
+
+{% block content %}
+
+<section class="container">
+    <!--  -->
+    <div class="login-container">
+        <!--  -->
+        <div class="login-table-image-container">
+            <img src="{% static 'images/biliard_table.png' %}" alt="illustration" class="illustration" />
+        </div>
+
+        <div class="form-container">
+
+            <h1 class="opacity">Admin Login</h1>
+
+            <form action="" method="post">
+                {% csrf_token %}
+                <p>Username</p>
+
+                <input type="text" class="input-email" name="username" required />
+
+                <div class="forgot-password">
+                    <p>Password</p>
+                    <a href="">Lupa Password?</a>
+                </div>
+
+                <input type="password" class="input-password" name="password" required />
+                <br><br>
+                <button class="btn-login">Login</button>
+            </form>
+
+            <div class="register-forget-opacity">
+                <p>Belum mempunyai akun?</p>
+                <a href="register.html">Sign up</a>
+            </div>
+        </div>
+
+
+    </div>
+</section>
+
+{% endblock %}

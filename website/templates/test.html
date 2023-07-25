@@ -1,0 +1,55 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+    <head>
+        <title>My Template</title>
+    </head>
+
+    <body>
+        <form action="" method="post">
+            {% csrf_token %}
+            <input type="text" id="required-tambah-info1" name="play_time" class="justify-content-end custom-input"
+                required>
+            <input class="custom-input" type="text" name="player" id="required-tambah-info2" required>
+
+            <button type="submit">sub</button>
+        </form>
+        <!-- Your HTML input elements -->
+
+        <!-- Your JavaScript function -->
+        <script>
+            function validateTambahInformasi() {
+                // Get the input elements by their IDs
+                var input1 = document.getElementById("required-tambah-info1");
+                var input2 = document.getElementById("required-tambah-info2");
+
+                // Check if the fields are empty
+                if (input1.value === '') {
+                    input1.setCustomValidity("Waktu main harus diisi!");
+                } else {
+                    input1.setCustomValidity("");
+                }
+
+                if (input2.value === '') {
+                    input2.setCustomValidity("Nama harus diisi!");
+                } else {
+                    input2.setCustomValidity("");
+                }
+
+                // Check if any of the fields are empty
+                if (input1.validity.valueMissing || input2.validity.valueMissing) {
+                    return;
+                }
+
+                // close button
+                var closeButton = document.getElementById("close-button-tambah-info");
+
+                // automatically click the close button of tambah informasi modal after submit button clicked
+                closeButton.click();
+            }
+        </script>
+
+    </body>
+
+</html>

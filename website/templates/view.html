@@ -1,0 +1,120 @@
+{% extends 'main.html' %}
+
+{% load static %}
+
+{% block title %}
+View Tables
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+  <div class="view p-5 mt-5 rounded">
+    <div class="row d-flex justify-content-between">
+      <div class="col">
+        <p class="text-white" style="font-size: 26px; font-weight: 600;">Pilih Meja Billiard</p>
+      </div>
+      <div class="col d-flex gap-3 justify-content-end">
+        <img src="{% static 'images/putih.png' %}" width="20px" height="20px" alt="" class="mt-2">
+        <p style="color: white; font-size: 23px; font-weight: 400;">Belum terisi</p>
+        <img src="{% static 'images/biru.png' %}" width="20px" height="20px" class="mt-2">
+        <p style="color: white; font-size: 23px; font-weight: 400;">Terisi</p>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col d-flex flex-wrap gap-5">
+        {% for table in hor_tables %}
+        {% if table.player == 'EMPTY' %}
+          <img src="{% static 'images/meja-putih.png' %}" alt="{{ table.table_number }}" class="clickable-image"
+            title="{{ table.table_number }}">
+        {% else %}
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <img src="{% static 'images/meja-biru.png' %}" alt="{{ table.table_number }}" class="clickable-image"
+            title="{{ table.table_number }}">
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+      <div class="col d-flex flex-wrap gap-5 justify-content-end align-content-between" style="padding-left: 150px">
+        {% for table in ver_tables %}
+        {% if table.player == 'EMPTY' %}
+          <img src="{% static 'images/meja-tegak-putih.png' %}" alt="{{ table.table_number }}" class="clickable-image"
+            title="{{ table.table_number }}">
+        {% else %}
+        <a data-bs-toggle="modal" data-bs-target="#exampleModal">
+          <img src="{% static 'images/meja-tegak-biru.png' %}" alt="{{ table.table_number }}" class="clickable-image"
+            title="{{ table.table_number }}">
+        </a>
+        {% endif %}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+
+  <!-- waiting list -->
+    <div class="wl p-5">
+      <p style="color: white; font-size: 26px; font-weight: 600; text-align: center">Waiting List</p>
+      <div class="d-flex flex-wrap d-block mx-auto" style="width: 425px;">
+        <!-- loop waiting list -->
+        {% for waiting in waitings %}
+        <a href="" style="width: 135px; color: white; text-decoration: none; font-size: 16px;" data-bs-toggle="modal"
+          data-bs-target="#set-table" id="disable-a">
+          <p title="{{ waiting.queue }}" class="clickable-paragraph">{{ waiting.player|title }}</p>
+        </a>
+        {% endfor %}
+      </div>
+    </div>
+</div>
+
+<!-- modal -->
+<div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog d-flex align-items-center justify-content-center" style="min-height: 100vh;">
+    <div class="modal-content" style="background-color: rgba(255, 255, 255, 0);">
+      <div class="modal-header">
+        <p style="font-size: 26px; font-weight: 600; color: white;" class="modal-title fs-5" id="exampleModalLabel">
+          Informasi Meja</p>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div style="display: flex; justify-content: center;">
+          <img src="{% static 'images/meja-biru-modal.png' %}" alt="">
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mt-3 p-2 rounded border border-sm">
+              <p id="start-time" class="d-block my-auto" style="font-size: 16px; color: white;" >Mulai :</p>
+            </div>
+
+          </div>
+          <div class="col">
+            <div class="mt-3 p-2 rounded border border-sm">
+              <p id="finish-time" class="d-block my-auto" style="font-size: 16px; color: white;">Selesai : </p>
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col">
+            <div class="mt-3 p-2 rounded border border-sm">
+              <p class="d-block my-auto text-center timer"
+                style="font-size: 16px; color: #F55454; font-weight: 600; font-size: 26px;" id="timer"></p>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+<!-- Bootstrap JavaScript (optional, if using modal functionality) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"
+  integrity="sha384-geWF76RCwLtnZ8qwWowPQNguL3RmwHVBC9FhGdlKrxdiJJigb/j/68SIy3Te4Bkz" crossorigin="anonymous"></script>
+
+<script>
+  const json_table = JSON.parse('{{ json_table | escapejs }}');
+</script>
+
+{% endblock %}

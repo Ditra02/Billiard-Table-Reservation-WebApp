@@ -1,0 +1,155 @@
+@import url('https://fonts.googleapis.com/css2?family=Raleway:wght@800&display=swap');
+
+:root {
+    --background: #0B120F;
+    --color: #ffffff;
+    --primary-color: #0f3460;
+    font-family: 'Poppins';
+}
+
+* {
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+
+
+}
+
+body {
+    font-family: 'Raleway', sans-serif;
+    height: 100vh;
+    margin: 0;
+    box-sizing: border-box;
+    background: var(--background);
+    color: var(--color);
+    letter-spacing: 1px;
+}
+
+.login-container {
+    /* background-color: #0EB36E; */
+    display: flex;
+    align-items: center;
+}
+
+
+.login-table-image-container {
+    /* background-color: wheat; */
+    height: 100vh;
+    width: 60%;
+}
+
+.form-container {
+    /* background-color: #753939; */
+    width: 380px;
+    height: auto;
+    align-items: center;
+    justify-content: center;
+}
+
+a {
+    font-size: 10px;
+    color: #0EB36E;
+    text-decoration: none;
+}
+
+p {
+    font-size: 10px;
+}
+
+.input-email {
+    color: #ffffff;
+    height: 50px;
+    width: 380px;
+    padding: 15px 10px;
+    border-radius: 16px;
+    border-style: solid;
+    border-color: #839C92;
+    background: transparent;
+}
+
+
+.input-password {
+
+    color: #ffffff;
+    height: 50px;
+    width: 380px;
+    padding: 15px 10px;
+    border-style: solid;
+    border-radius: 16px;
+    border-color: #839C92;
+    box-shadow: none;
+    background: transparent;
+}
+
+.confirm-password {
+    color: #ffffff;
+    height: 50px;
+    width: 380px;
+    padding: 15px 10px;
+    border-radius: 16px;
+    border-style: solid;
+    border-color: #839C92;
+    background: transparent;
+}
+
+.forgot-password {
+    /* background-color: #0f3460; */
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.register-forget-opacity {
+    font-size: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-login {
+    font-family: 'poppins';
+    font-weight: bold;
+    font-size: 15px;
+    height: 50px;
+    width: 380px;
+    border-radius: 16px;
+    background-color: #0EB36E;
+    border-style: none;
+    /* border-color: #839C92; */
+}
+
+.btn-create-account {
+    font-family: 'poppins';
+    font-weight: bold;
+    font-size: 15px;
+    height: 50px;
+    width: 380px;
+    border-radius: 16px;
+    background-color: #0EB36E;
+    border-style: none;
+}
+
+.btn-google-account button {
+    padding-left: 10px;
+    font-family: 'poppins';
+    font-weight: bold;
+    font-size: 15px;
+    background-color: transparent;
+    border-style: none;
+
+}
+
+.btn-google-account {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 15px;
+    height: 50px;
+    width: 380px;
+    border-radius: 16px;
+    background-color: #ffffff;
+    border-style: none;
+}
