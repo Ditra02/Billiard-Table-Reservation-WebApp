@@ -22,7 +22,7 @@
 ![Alt Text](snapshot/user-non-admin.png)
 
 ### Add Waiting List
-![Alt Text](snapshot/user-non-admin.png)
+![Alt Text](snapshot/add_waiting.png)
 
 ### admin view
 ![Alt Text](snapshot/view.png)
